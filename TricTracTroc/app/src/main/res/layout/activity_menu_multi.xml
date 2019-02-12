@@ -20,12 +20,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/host"
-            android:onClick="playCpu"/>
+            android:onClick="create"/>
 
         <Button
             android:id="@+id/multi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/join" />
+            android:text="@string/join"
+            android:onClick="join"/>
     </LinearLayout>
 </RelativeLayout>

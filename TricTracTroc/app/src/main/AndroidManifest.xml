@@ -18,12 +18,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MenuMultiActivity">
-        </activity>
-        <activity android:name=".Cpu">
-        </activity>
-        <activity android:name=".LobbyActivity">
-        </activity>
+        <activity android:name=".MenuMultiActivity"></activity>
+        <activity android:name=".Cpu"></activity>
+        <activity android:name=".LobbyActivity"></activity>
+        <activity android:name=".Online"></activity>
+        <activity android:name=".JoinActivity"></activity>
     </application>
 
 </manifest>

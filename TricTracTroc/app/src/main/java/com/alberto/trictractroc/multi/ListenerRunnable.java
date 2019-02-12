@@ -33,6 +33,7 @@ public class ListenerRunnable implements Runnable {
             m = new Message();
             m.what = LobbyActivity.CONNESSO;
             SocketSingleton.setSocket(accepted);
+            SocketSingleton.setHost(true);
             this.handler.sendMessage(m);
             server.close();
         } catch (IOException e) {

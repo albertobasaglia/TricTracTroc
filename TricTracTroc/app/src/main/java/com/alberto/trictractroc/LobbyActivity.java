@@ -10,12 +10,8 @@ import android.text.format.Formatter;
 import android.widget.TextView;
 
 import com.alberto.trictractroc.multi.ListenerRunnable;
-import com.alberto.trictractroc.multi.SocketSingleton;
-
-import java.io.IOException;
 
 public class LobbyActivity extends AppCompatActivity {
-    //Connessione ricevuta is 0
     private TextView status;
     public static final int ASCOLTO = 0;
     public static final int CONNESSO = 1;
@@ -41,6 +37,7 @@ public class LobbyActivity extends AppCompatActivity {
                     }
                     case CONNESSO: {
                         status.setText("Connesso");
+                        startActivity(new Intent(LobbyActivity.this,Online.class));
                         break;
                     }
                 }

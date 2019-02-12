@@ -12,8 +12,13 @@ public class MenuMultiActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_multi);
     }
+    public void join(View view) {
+        Intent i = new Intent(this,JoinActivity.class);
+        startActivity(i);
 
-    public void playCpu(View view) {
+    }
+
+    public void create(View view) {
         Intent i = new Intent(this,LobbyActivity.class);
         startActivity(i);
     }
