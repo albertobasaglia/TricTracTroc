@@ -25,7 +25,6 @@ public class JoinRunnable implements Runnable {
             Message message = new Message();
             message.what = JoinActivity.CONNESSO;
             this.handler.sendMessage(message);
-            socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

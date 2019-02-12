@@ -9,13 +9,35 @@ import android.view.View;
 import android.widget.Button;
 
 import com.alberto.trictractroc.multi.PlayRunnable;
+import com.alberto.trictractroc.multi.SocketSingleton;
+import com.alberto.trictractroc.tictactoe.CellNotEmptyException;
+import com.alberto.trictractroc.tictactoe.CellNotInRangeException;
+import com.alberto.trictractroc.tictactoe.Game;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 public class Online extends AppCompatActivity {
-    private static final int SET_CELL = 0;
+    public static final int SET_CELL = 0;
+    private Game.State mioStato;
+    private int miaRisorsa;
+    private Game.State suoStato;
+    private int suaRisorsa;
+
+    private Game game;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        this.game = new Game();
+
+        mioStato = (SocketSingleton.isHost())? Game.State.X : Game.State.O;
+        miaRisorsa = (SocketSingleton.isHost())? R.drawable.x : R.drawable.o;
+
+        suoStato = (!SocketSingleton.isHost())? Game.State.X : Game.State.O;
+        suaRisorsa = (!SocketSingleton.isHost())? R.drawable.x : R.drawable.o;
+
         Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -23,7 +45,22 @@ public class Online extends AppCompatActivity {
                 switch(msg.what) {
                     case SET_CELL: {
                         int pos = msg.arg1;
-                        getButtonById(pos).setBackgroundResource(R.drawable.o);
+                        getButtonById(pos).setBackgroundResource(suaRisorsa);
+                        try {
+                            game.makeMove(pos,suoStato);
+                            Game.State winner = game.checkWinner(pos);
+                            if(winner != Game.State.EMPTY){
+                                finish();
+                                SocketSingleton.getSocket().close();
+                            }
+                        } catch (CellNotEmptyException e) {
+                            e.printStackTrace();
+                        } catch (CellNotInRangeException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
                         break;
                     }
                 }
@@ -66,7 +103,24 @@ public class Online extends AppCompatActivity {
         return id;
     }
 
-    public void cellClicked(View view) {
-
+    public void cellClicked(View view) throws CellNotEmptyException, CellNotInRangeException, IOException {
+        if(PlayRunnable.trasmetto) {
+            new Thread(() -> {
+                try {
+                    DataOutputStream dos = new DataOutputStream(SocketSingleton.getSocket().getOutputStream());
+                    dos.writeInt(getIdByView(view));
+                    PlayRunnable.trasmetto = false;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+            getButtonById(getIdByView(view)).setBackgroundResource(miaRisorsa);
+            this.game.makeMove(getIdByView(view),mioStato);
+            Game.State winner = this.game.checkWinner(getIdByView(view));
+            if(winner != Game.State.EMPTY){
+                finish();
+                SocketSingleton.getSocket().close();
+            }
+        }
     }
 }
