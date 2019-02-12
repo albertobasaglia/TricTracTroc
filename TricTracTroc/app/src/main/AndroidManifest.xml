@@ -19,6 +19,8 @@
 
         <activity android:name=".MenuMultiActivity">
         </activity>
+        <activity android:name=".Cpu">
+        </activity>
     </application>
 
 </manifest>

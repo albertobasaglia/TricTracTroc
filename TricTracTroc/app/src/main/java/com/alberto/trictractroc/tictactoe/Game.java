@@ -1,7 +1,7 @@
 package com.alberto.trictractroc.tictactoe;
 
 public class Game {
-    enum State {
+    public enum State {
         O,X,EMPTY
     }
     public class Cell {
@@ -71,5 +71,12 @@ public class Game {
 
     public boolean isGameFinished() {
         return gameFinished;
+    }
+
+    public int getAiMove(State who) {
+        int generated = (int) (Math.random() * 9);
+        while(this.cells[generated].state != State.EMPTY )
+            generated = (int) (Math.random() * 9);
+        return generated;
     }
 }

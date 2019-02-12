@@ -14,7 +14,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void playCpu(View view) {
-
+        Intent intent = new Intent(this,Cpu.class);
+        startActivity(intent);
     }
 
     public void playMulti(View view) {
