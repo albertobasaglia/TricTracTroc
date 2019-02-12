@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TricTracTroc</string>
+    <string name="cpu">Sfida la CPU</string>
+    <string name="multi">Sfida i tuoi AMICI</string>
+    <string name="host">Crea una partita</string>
+    <string name="join">Entra in una partita</string>
 </resources>

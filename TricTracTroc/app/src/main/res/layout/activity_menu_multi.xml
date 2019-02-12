@@ -19,20 +19,13 @@
             android:id="@+id/cpu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/cpu"
+            android:text="@string/host"
             android:onClick="playCpu"/>
 
         <Button
             android:id="@+id/multi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/multi" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textAlignment="center" />
+            android:text="@string/join" />
     </LinearLayout>
 </RelativeLayout>
