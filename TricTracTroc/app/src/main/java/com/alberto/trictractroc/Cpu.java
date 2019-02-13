@@ -20,7 +20,7 @@ public class Cpu extends AppCompatActivity {
     private Game.State current;
     private boolean ai;
     private int winCounter;
-
+    private boolean cpuStarts;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +29,7 @@ public class Cpu extends AppCompatActivity {
         this.current = Game.State.X;
         this.ai = true;
         this.winCounter = 0;
+        this.cpuStarts = true;
     }
 
     public Button getButtonById(int idRes) {
@@ -110,6 +111,23 @@ public class Cpu extends AppCompatActivity {
             this.game.reset();
             this.resetView();
             this.current = (this.current == Game.State.O )?Game.State.X:Game.State.O;
+
+            if(!ai) return;
+            if(cpuStarts) {
+                int pos = this.game.getAiMove(this.current);
+                try {
+                    this.game.makeMove(pos,this.current);
+                } catch (CellNotEmptyException e) {
+                    e.printStackTrace();
+                } catch (CellNotInRangeException e) {
+                    e.printStackTrace();
+                }
+                getButtonById(pos).setBackgroundResource((this.current == Game.State.O )?R.drawable.o:R.drawable.x);
+                this.current = (this.current == Game.State.O )?Game.State.X:Game.State.O;
+                cpuStarts = false;
+            } else {
+                cpuStarts = true;
+            }
         });
         dialog.setNegativeButton(R.string.exit,(dialog1,which) -> {
             setResult(this.winCounter);
