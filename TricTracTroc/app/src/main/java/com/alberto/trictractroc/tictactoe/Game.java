@@ -2,7 +2,17 @@ package com.alberto.trictractroc.tictactoe;
 
 public class Game {
     public enum State {
-        O,X,EMPTY
+        O,X,EMPTY;
+        @Override
+        public String toString() {
+            String s = "?";
+            switch(this) {
+                case O: s = "O"; break;
+                case X: s = "X"; break;
+                case EMPTY: s = "Empty"; break;
+            }
+            return s;
+        }
     }
     public class Cell {
         private State state;
@@ -56,7 +66,6 @@ public class Game {
      * */
     public State checkWinner(int lastMove) {
         if(this.moves > 4) {
-            if(this.moves == 9) return State.EMPTY;
             State player = this.cells[lastMove].state;
             for(int i=0 ; i< winLines[lastMove].length ; i++) {
                 int[] line = winLines[lastMove][i];
@@ -66,6 +75,7 @@ public class Game {
                     return player;
                 }
             }
+            if(this.moves == 9) return State.EMPTY;
         }
         return null;
     }

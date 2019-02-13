@@ -77,23 +77,23 @@ public class Cpu extends AppCompatActivity {
         try {
             this.game.makeMove(id,this.current);
             view.setBackgroundResource((this.current == Game.State.O )?R.drawable.o:R.drawable.x);
-            this.current = (this.current == Game.State.O )?Game.State.X:Game.State.O;
             Game.State winner = this.game.checkWinner(id);
             if(winner != null) {
                 this.winCounter++;
-                endGame();
+                endGame(this.current);
             }
             else {
+                this.current = (this.current == Game.State.O )?Game.State.X:Game.State.O;
                 if(!ai) return;
 
                 int pos = this.game.getAiMove(this.current);
                 this.game.makeMove(pos,this.current);
                 getButtonById(pos).setBackgroundResource((this.current == Game.State.O )?R.drawable.o:R.drawable.x);
-                this.current = (this.current == Game.State.O )?Game.State.X:Game.State.O;
                 winner = this.game.checkWinner(pos);
                 if(winner != null) {
-                    endGame();
+                    endGame(this.current);
                 }
+                this.current = (this.current == Game.State.O )?Game.State.X:Game.State.O;
             }
 
         } catch (CellNotEmptyException e) {
@@ -102,11 +102,17 @@ public class Cpu extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    public void endGame() {
+    public void endGame(Game.State stato) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        if(stato != Game.State.EMPTY) {
+            dialog.setMessage("Ha vinto "+stato.toString());
+        } else {
+            dialog.setMessage("Pareggio");
+        }
         dialog.setPositiveButton("Gioca Ancora", (dialog1, which) -> {
             this.game.reset();
             this.resetView();
+            this.current = (this.current == Game.State.O )?Game.State.X:Game.State.O;
         });
         dialog.setNegativeButton("Esci",(dialog1,which) -> {
             setResult(this.winCounter);
@@ -118,6 +124,17 @@ public class Cpu extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        endGame();
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setMessage("Vuoi uscire?");
+        dialog.setPositiveButton("Reset", (dialog1, which) -> {
+            this.game.reset();
+            this.resetView();
+        });
+        dialog.setNegativeButton("Esci",(dialog1,which) -> {
+            setResult(this.winCounter);
+            this.current = Game.State.X;
+            finish();
+        });
+        dialog.show();
     }
 }
