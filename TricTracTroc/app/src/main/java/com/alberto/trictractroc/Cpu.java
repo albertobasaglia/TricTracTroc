@@ -1,11 +1,8 @@
 package com.alberto.trictractroc;
 
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -97,7 +94,7 @@ public class Cpu extends AppCompatActivity {
             }
 
         } catch (CellNotEmptyException e) {
-            Toast.makeText(this,"Cell is not empty",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,R.string.cell_not_empty,Toast.LENGTH_SHORT).show();
         } catch (CellNotInRangeException e) {
             e.printStackTrace();
         }
@@ -105,16 +102,16 @@ public class Cpu extends AppCompatActivity {
     public void endGame(Game.State stato) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         if(stato != Game.State.EMPTY) {
-            dialog.setMessage("Ha vinto "+stato.toString());
+            dialog.setMessage(getString(R.string.win,stato));
         } else {
-            dialog.setMessage("Pareggio");
+            dialog.setMessage(R.string.draw);
         }
-        dialog.setPositiveButton("Gioca Ancora", (dialog1, which) -> {
+        dialog.setPositiveButton(R.string.play_again, (dialog1, which) -> {
             this.game.reset();
             this.resetView();
             this.current = (this.current == Game.State.O )?Game.State.X:Game.State.O;
         });
-        dialog.setNegativeButton("Esci",(dialog1,which) -> {
+        dialog.setNegativeButton(R.string.exit,(dialog1,which) -> {
             setResult(this.winCounter);
             this.current = Game.State.X;
             finish();
@@ -125,12 +122,12 @@ public class Cpu extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setMessage("Vuoi uscire?");
-        dialog.setPositiveButton("Reset", (dialog1, which) -> {
+        dialog.setMessage(R.string.ask_exit);
+        dialog.setPositiveButton(R.string.reset, (dialog1, which) -> {
             this.game.reset();
             this.resetView();
         });
-        dialog.setNegativeButton("Esci",(dialog1,which) -> {
+        dialog.setNegativeButton(R.string.exit,(dialog1,which) -> {
             setResult(this.winCounter);
             this.current = Game.State.X;
             finish();

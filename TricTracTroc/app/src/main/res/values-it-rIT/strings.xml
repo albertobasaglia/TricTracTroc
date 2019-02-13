@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TricTracTroc</string>
+    <string name="cpu">Sfida la CPU</string>
+    <string name="multi">Sfida i tuoi AMICI</string>
+    <string name="host">Crea una partita</string>
+    <string name="join">Entra in una partita</string>
+    <string name="win">Ha vinto %1$s!</string>
+    <string name="draw">Pareggio</string>
+    <string name="cell_not_empty">Casella non vuota!</string>
+    <string name="play_again">Gioca Ancora</string>
+    <string name="exit">Esci</string>
+    <string name="ask_exit">Vuoi Uscire?</string>
+    <string name="reset">Reset</string>
+</resources>
