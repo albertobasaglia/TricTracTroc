@@ -80,7 +80,7 @@ public class Cpu extends AppCompatActivity {
             Game.State winner = this.game.checkWinner(id);
             if(winner != null) {
                 this.winCounter++;
-                endGame(this.current);
+                endGame(winner);
             }
             else {
                 this.current = (this.current == Game.State.O )?Game.State.X:Game.State.O;
@@ -91,7 +91,7 @@ public class Cpu extends AppCompatActivity {
                 getButtonById(pos).setBackgroundResource((this.current == Game.State.O )?R.drawable.o:R.drawable.x);
                 winner = this.game.checkWinner(pos);
                 if(winner != null) {
-                    endGame(this.current);
+                    endGame(winner);
                 }
                 this.current = (this.current == Game.State.O )?Game.State.X:Game.State.O;
             }
