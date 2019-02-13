@@ -49,7 +49,7 @@ public class Online extends AppCompatActivity {
                         try {
                             game.makeMove(pos,suoStato);
                             Game.State winner = game.checkWinner(pos);
-                            if(winner != Game.State.EMPTY){
+                            if(winner != null){
                                 finish();
                                 SocketSingleton.getSocket().close();
                             }
@@ -117,7 +117,7 @@ public class Online extends AppCompatActivity {
             getButtonById(getIdByView(view)).setBackgroundResource(miaRisorsa);
             this.game.makeMove(getIdByView(view),mioStato);
             Game.State winner = this.game.checkWinner(getIdByView(view));
-            if(winner != Game.State.EMPTY){
+            if(winner != null){
                 finish();
                 SocketSingleton.getSocket().close();
             }

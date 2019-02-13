@@ -52,10 +52,11 @@ public class Game {
         }
     }
     /**
-     * @return X or O if winner, EMPTY if no one is winning
+     * @return X or O if winner, NULL if no one is winning, EMPTY if draw
      * */
     public State checkWinner(int lastMove) {
         if(this.moves > 4) {
+            if(this.moves == 9) return State.EMPTY;
             State player = this.cells[lastMove].state;
             for(int i=0 ; i< winLines[lastMove].length ; i++) {
                 int[] line = winLines[lastMove][i];
@@ -66,7 +67,7 @@ public class Game {
                 }
             }
         }
-        return State.EMPTY;
+        return null;
     }
 
     public boolean isGameFinished() {

@@ -1,7 +1,11 @@
 package com.alberto.trictractroc;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -18,6 +22,8 @@ public class Cpu extends AppCompatActivity {
     private Game game;
     private Game.State current;
     private boolean ai;
+    private int winCounter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +31,7 @@ public class Cpu extends AppCompatActivity {
         this.game = new Game();
         this.current = Game.State.X;
         this.ai = true;
+        this.winCounter = 0;
     }
 
     public Button getButtonById(int idRes) {
@@ -59,6 +66,12 @@ public class Cpu extends AppCompatActivity {
         return id;
     }
 
+    public void resetView() {
+        for(int i=0 ; i<9 ; i++) {
+            getButtonById(i).setBackgroundResource(R.drawable.empty);
+        }
+    }
+
     public void cellClicked(View view) {
         int id = getIdByView(view);
         try {
@@ -66,8 +79,10 @@ public class Cpu extends AppCompatActivity {
             view.setBackgroundResource((this.current == Game.State.O )?R.drawable.o:R.drawable.x);
             this.current = (this.current == Game.State.O )?Game.State.X:Game.State.O;
             Game.State winner = this.game.checkWinner(id);
-            if(winner != Game.State.EMPTY)
-                finish();
+            if(winner != null) {
+                this.winCounter++;
+                endGame();
+            }
             else {
                 if(!ai) return;
 
@@ -76,8 +91,9 @@ public class Cpu extends AppCompatActivity {
                 getButtonById(pos).setBackgroundResource((this.current == Game.State.O )?R.drawable.o:R.drawable.x);
                 this.current = (this.current == Game.State.O )?Game.State.X:Game.State.O;
                 winner = this.game.checkWinner(pos);
-                if(winner != Game.State.EMPTY)
-                    finish();
+                if(winner != null) {
+                    endGame();
+                }
             }
 
         } catch (CellNotEmptyException e) {
@@ -85,5 +101,23 @@ public class Cpu extends AppCompatActivity {
         } catch (CellNotInRangeException e) {
             e.printStackTrace();
         }
+    }
+    public void endGame() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setPositiveButton("Gioca Ancora", (dialog1, which) -> {
+            this.game.reset();
+            this.resetView();
+        });
+        dialog.setNegativeButton("Esci",(dialog1,which) -> {
+            setResult(this.winCounter);
+            this.current = Game.State.X;
+            finish();
+        });
+        dialog.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        endGame();
     }
 }
