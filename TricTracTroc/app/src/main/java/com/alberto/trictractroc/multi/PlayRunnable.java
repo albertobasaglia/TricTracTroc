@@ -29,10 +29,6 @@ public class PlayRunnable implements Runnable{
         try {
             DataInputStream dis = new DataInputStream(socket.getInputStream());
             trasmetto = SocketSingleton.isHost();
-            //TODO inserire un semaforo al posto di sta roba
-            /*
-            * Il semaforo ci dice se dobbiamo aspettare un messaggio oppure mandarne uno
-            * */
             while(running) {
                 int read = dis.readInt();
                 Message message = new Message();
