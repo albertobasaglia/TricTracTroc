@@ -34,17 +34,15 @@ public class PlayRunnable implements Runnable{
             * Il semaforo ci dice se dobbiamo aspettare un messaggio oppure mandarne uno
             * */
             while(running) {
-                if(!trasmetto) {
-                    int read = dis.readInt();
-                    Message message = new Message();
-                    message.what = Online.SET_CELL;
-                    message.arg1 = read;
-                    if(read == -1) {
-                        this.stopServer();
-                    }
-                    this.handler.sendMessage(message);
-                    trasmetto = true;
+                int read = dis.readInt();
+                Message message = new Message();
+                message.what = Online.SET_CELL;
+                message.arg1 = read;
+                if(read == -1) {
+                    this.stopServer();
                 }
+                this.handler.sendMessage(message);
+                trasmetto = true;
             }
             socket.close();
         } catch (SocketException e) {
