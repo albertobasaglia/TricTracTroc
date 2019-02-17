@@ -14,6 +14,7 @@ import com.alberto.trictractroc.tictactoe.CellNotEmptyException;
 import com.alberto.trictractroc.tictactoe.CellNotInRangeException;
 import com.alberto.trictractroc.tictactoe.Game;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
@@ -23,7 +24,7 @@ public class Online extends AppCompatActivity {
     private int miaRisorsa;
     private Game.State suoStato;
     private int suaRisorsa;
-
+    private Thread runningGame;
     private Game game;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,28 +38,36 @@ public class Online extends AppCompatActivity {
 
         suoStato = (!SocketSingleton.isHost())? Game.State.X : Game.State.O;
         suaRisorsa = (!SocketSingleton.isHost())? R.drawable.x : R.drawable.o;
-
+        AppCompatActivity activity = this;
         Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 switch(msg.what) {
                     case SET_CELL: {
+
                         int pos = msg.arg1;
-                        getButtonById(pos).setBackgroundResource(suaRisorsa);
-                        try {
-                            game.makeMove(pos,suoStato);
-                            Game.State winner = game.checkWinner(pos);
-                            if(winner != null){
-                                finish();
-                                SocketSingleton.getSocket().close();
+
+                        if(pos == -1) {
+                            activity.finish();
+                        } else {
+
+                            getButtonById(pos).setBackgroundResource(suaRisorsa);
+                            try {
+                                game.makeMove(pos,suoStato);
+                                Game.State winner = game.checkWinner(pos);
+                                if(winner != null){
+                                    finish();
+                                    SocketSingleton.getSocket().close();
+                                }
+                            } catch (CellNotEmptyException e) {
+                                e.printStackTrace();
+                            } catch (CellNotInRangeException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
-                        } catch (CellNotEmptyException e) {
-                            e.printStackTrace();
-                        } catch (CellNotInRangeException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+
                         }
 
                         break;
@@ -69,7 +78,8 @@ public class Online extends AppCompatActivity {
 
 
         PlayRunnable play = new PlayRunnable(handler);
-        new Thread(play).start();
+        this.runningGame = new Thread(play);
+        this.runningGame.start();
     }
     public Button getButtonById(int idRes) {
         int id = 0;
@@ -122,5 +132,19 @@ public class Online extends AppCompatActivity {
                 SocketSingleton.getSocket().close();
             }
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        new Thread(() -> {
+            try {
+                DataOutputStream dis = new DataOutputStream(SocketSingleton.getSocket().getOutputStream());
+                dis.writeInt(-1);
+                SocketSingleton.getSocket().close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 }

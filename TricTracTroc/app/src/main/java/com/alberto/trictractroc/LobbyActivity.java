@@ -16,6 +16,7 @@ public class LobbyActivity extends AppCompatActivity {
     public static final int ASCOLTO = 0;
     public static final int CONNESSO = 1;
     private Thread runningSocket;
+    private Handler handler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +27,7 @@ public class LobbyActivity extends AppCompatActivity {
 
         this.status = findViewById(R.id.status);
 
-        Handler handler = new Handler() {
+        this.handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
@@ -43,6 +44,15 @@ public class LobbyActivity extends AppCompatActivity {
                 }
             }
         };
+        ListenerRunnable run = new ListenerRunnable(handler);
+        runningSocket = new Thread(run);
+        runningSocket.start();
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
         ListenerRunnable run = new ListenerRunnable(handler);
         runningSocket = new Thread(run);
         runningSocket.start();
