@@ -12,4 +12,6 @@
     <string name="exit">Esci</string>
     <string name="ask_exit">Vuoi Uscire?</string>
     <string name="reset">Reset</string>
+    <string name="connect">Connettiti</string>
+    <string name="history">Ultimi IP</string>
 </resources>

@@ -2,7 +2,7 @@
     <string name="app_name">TricTracTroc</string>
     <string name="cpu">Play VS Cpu</string>
     <string name="multi">Play VS your friends</string>
-    <string name="host">Crea a game</string>
+    <string name="host">Create a game</string>
     <string name="join">Join a game</string>
     <string name="win">%1$s won!</string>
     <string name="draw">Draw</string>
@@ -11,4 +11,6 @@
     <string name="exit">Exit</string>
     <string name="ask_exit">Do you want to exit?</string>
     <string name="reset">Reset</string>
+    <string name="connect">Connect</string>
+    <string name="history">Game History</string>
 </resources>
