@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
     private int wins;
     private TextView vittorie;
     private static final int WINS = 0;
+    private static final int START_SELECT = 1;
 
 
     @Override
@@ -41,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void playCpu(View view) {
-        Intent intent = new Intent(this,Cpu.class);
-        startActivityForResult(intent,WINS);
+        Intent intent = new Intent(this,SelectPlayerActivity.class);
+        startActivityForResult(intent,START_SELECT);
     }
 
     public void playMulti(View view) {
@@ -62,6 +63,13 @@ public class MainActivity extends AppCompatActivity {
                 this.wins+=resultCode;
                 setWins();
 
+                break;
+            }
+            case START_SELECT: {
+                int scelta = resultCode;
+                Intent intent = new Intent(this,Cpu.class);
+                intent.putExtra("start",scelta);
+                startActivityForResult(intent,WINS);
                 break;
             }
         }

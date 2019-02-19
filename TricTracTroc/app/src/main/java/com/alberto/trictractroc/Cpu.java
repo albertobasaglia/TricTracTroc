@@ -25,8 +25,9 @@ public class Cpu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        int start = getIntent().getIntExtra("start",0);
         this.game = new Game();
-        this.current = Game.State.X;
+        this.current = (start == 0)? Game.State.O : Game.State.X;
         this.ai = true;
         this.winCounter = 0;
         this.cpuStarts = true;
