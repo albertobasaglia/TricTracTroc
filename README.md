@@ -1,6 +1,6 @@
 # Tris in Android
 
-![home](https://i.imgur.com/IYf4PW7.jpg)
+![home](https://i.imgur.com/Uy0RpWm.jpg)
 
 ## Studio
 Il seguente progetto è una versione del TicTacToe in android studio.
@@ -43,5 +43,5 @@ Ho cercato di rispettare il pattern MVC realizzando una classe Game che contiene
 
 Viene creata un istanza della classe Game nell'activity che si occupa del gioco in modo da tenere separata la parte dell'interfaccia grafica da quella che gestisce le mosse e la rappresentazione nella memoria del gioco del tris.
 
-![img1](https://i.imgur.com/BuDtrhB.jpg)
-![img2](https://i.imgur.com/zL5pL1J.jpg)
+![img1](https://i.imgur.com/xw0mqrb.jpg)
+![img2](https://i.imgur.com/O5ed2l9.jpg)
